@@ -32,3 +32,27 @@ body {
 .tile:hover {
     background-color: darkgray;
 }
+
+.button-area {
+    position: absolute;
+    left: 5%;
+    top: 30%;
+    width: 200px;
+    height: 200px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.char-box {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10%;
+}
+
+.character-button {
+    margin: 10px;
+}
