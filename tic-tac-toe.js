@@ -12,13 +12,15 @@ right = 2;
  * A module which is repsonsible for the game-board.
  */
 const gameBoard = (() => {
-    const board = [[[],[],['Hello']],[[],[],[]],[[],[],[]]];
+    const board = [[[],[],[]],[[],[],[]],[[],[],[]]];
     const newBoard = [[[],[],[]],[[],[],[]],[[],[],[]]];
+
 
     const logBoardToConsole = () => console.log(board);
     
-    const addMarkerToBoardAndRender = () => { 
-        board[upper][left] = 'X';
+    const addMarkerToBoardAndRender = (tileId) => { 
+        let idConstituents = tileId.split('-'); // splits the id to get the index
+        board[idConstituents[0]][idConstituents[1]] = 'X'; // NEED to ADD player Symbol
         displayController.render();
     }
 
@@ -27,16 +29,7 @@ const gameBoard = (() => {
     }
     return {
         board, 
-        newBoard,
-        upperLeft,
-        upperMiddle,
-        upperRight,
-        middleLeft, 
-        middleMiddle,
-        middleRight,
-        lowerLeft,
-        lowerMiddle,
-        lowerRight, 
+        newBoard, 
         logBoardToConsole,
         addMarkerToBoardAndRender,
         resetGameBoard,
@@ -49,15 +42,15 @@ const gameBoard = (() => {
  */
 const displayController = (() => {
     const render = () => {
-        document.getElementById('upperLeft').innerHTML = gameBoard.upperLeft;
-        document.getElementById('upperMiddle').innerHTML = gameBoard.upperMiddle;
-        document.getElementById('upperRight').innerHTML = gameBoard.upperRight;
-        document.getElementById('middleLeft').innerHTML = gameBoard.middleLeft;
-        document.getElementById('middleMiddle').innerHTML = gameBoard.middleMiddle;
-        document.getElementById('middleRight').innerHTML = gameBoard.middleRight;
-        document.getElementById('lowerLeft').innerHTML = gameBoard.lowerLeft;
-        document.getElementById('lowerMiddle').innerHTML = gameBoard.lowerMiddle;
-        document.getElementById('lowerRight').innerHTML = gameBoard.lowerRight;
+        document.getElementById('upper-left').innerHTML = gameBoard.board[upper][left];
+        document.getElementById('upper-middle').innerHTML = gameBoard.board[upper][middle];
+        document.getElementById('upper-right').innerHTML = gameBoard.board[upper][right];
+        document.getElementById('middle-left').innerHTML = gameBoard.board[middle][left];
+        document.getElementById('middle-middle').innerHTML = gameBoard.board[middle][middle];
+        document.getElementById('middle-right').innerHTML = gameBoard.board[middle][right];
+        document.getElementById('lower-left').innerHTML = gameBoard.board[lower][left];
+        document.getElementById('lower-middle').innerHTML = gameBoard.board[lower][middle];
+        document.getElementById('lower-right').innerHTML = gameBoard.board[lower][right];
 
     }
     return {
@@ -99,7 +92,7 @@ const player = (playerName, playerSymbol) => {
 boardChildren = document.getElementById('game-board').children;
 for (let i = 0; i < boardChildren.length; i++) {
     boardChildren[i].addEventListener('click', (event) => {
-        gameBoard.addMarkerToBoardAndRender();
+        gameBoard.addMarkerToBoardAndRender(event.target.id);
     });
 }
 
