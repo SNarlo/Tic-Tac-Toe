@@ -18,10 +18,11 @@ const gameBoard = (() => {
 
     const logBoardToConsole = () => console.log(board);
     
-    const addMarkerToBoardAndRender = (tileId) => { 
+    const addMarkerToBoard = (tileId) => { 
         let idConstituents = tileId.split('-'); // splits the id to get the index
-        board[idConstituents[0]][idConstituents[1]] = 'X'; // NEED to ADD player Symbol
-        displayController.render();
+        console.log(idConstituents); // NEED to fix this 
+        board[idConstituents[0]][idConstituents[1]].replace('X'); // NEED to ADD player Symbol
+        
     }
 
     const resetGameBoard = () => {
@@ -31,7 +32,7 @@ const gameBoard = (() => {
         board, 
         newBoard, 
         logBoardToConsole,
-        addMarkerToBoardAndRender,
+        addMarkerToBoard,
         resetGameBoard,
     };
 })();
@@ -92,7 +93,7 @@ const player = (playerName, playerSymbol) => {
 boardChildren = document.getElementById('game-board').children;
 for (let i = 0; i < boardChildren.length; i++) {
     boardChildren[i].addEventListener('click', (event) => {
-        gameBoard.addMarkerToBoardAndRender(event.target.id);
+        gameBoard.addMarkerToBoard(event.target.id);
     });
 }
 
