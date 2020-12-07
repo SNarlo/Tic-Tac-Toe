@@ -16,8 +16,6 @@ let boardIndexDict = {
  */
 const gameBoard = (() => {
     const board = [[[],[],[]],[[],[],[]],[[],[],[]]];
-    const newBoard = [[[],[],[]],[[],[],[]],[[],[],[]]];
-
 
     const logBoardToConsole = () => console.log(board);
     
@@ -28,11 +26,15 @@ const gameBoard = (() => {
     }
 
     const resetGameBoard = () => {
-        board = newBoard;
+        for (let i = 0; i < board.length; i++) {
+            for (let j = 0; j < board[0].length; j++) {
+                board[i][j] = []
+            }
+        }
+        displayController.render();
     }
     return {
         board, 
-        newBoard, 
         logBoardToConsole,
         addMarkerToBoard,
         resetGameBoard,
@@ -80,17 +82,11 @@ const player = (playerName, playerSymbol) => {
 /**
  * A module which controlls the game logic
  */
-// const gameLogic = (() => {
+const gameLogic = (() => {
 
-//     const tileClickEvent = () => {
-        
-//     }
+})();
 
-//     return {
-//         tileClickEvent,
-//     }
 
-// })();
 
 boardChildren = document.getElementById('game-board').children;
 for (let i = 0; i < boardChildren.length; i++) {
@@ -99,3 +95,5 @@ for (let i = 0; i < boardChildren.length; i++) {
     });
 }
 
+restartButton = document.getElementById('restart');
+restartButton.addEventListener('click', gameBoard.resetGameBoard);
