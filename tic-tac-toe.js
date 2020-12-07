@@ -2,11 +2,14 @@
 /*
 Constants
 */
-upper = 0;
-middle = 1;
-lower = 2;
-left = 0;
-right = 2;
+let boardIndexDict = {
+    'upper': 0,
+    'middle': 1,
+    'lower': 2,
+    'left': 0,
+    'right': 2,
+}
+
 
 /**
  * A module which is repsonsible for the game-board.
@@ -20,9 +23,8 @@ const gameBoard = (() => {
     
     const addMarkerToBoard = (tileId) => { 
         let idConstituents = tileId.split('-'); // splits the id to get the index
-        console.log(idConstituents); // NEED to fix this 
-        board[idConstituents[0]][idConstituents[1]].replace('X'); // NEED to ADD player Symbol
-        
+        board[boardIndexDict[idConstituents[0]]][boardIndexDict[idConstituents[1]]] = 'X'; // NEED to ADD player Symbol
+        displayController.render();
     }
 
     const resetGameBoard = () => {
@@ -43,15 +45,15 @@ const gameBoard = (() => {
  */
 const displayController = (() => {
     const render = () => {
-        document.getElementById('upper-left').innerHTML = gameBoard.board[upper][left];
-        document.getElementById('upper-middle').innerHTML = gameBoard.board[upper][middle];
-        document.getElementById('upper-right').innerHTML = gameBoard.board[upper][right];
-        document.getElementById('middle-left').innerHTML = gameBoard.board[middle][left];
-        document.getElementById('middle-middle').innerHTML = gameBoard.board[middle][middle];
-        document.getElementById('middle-right').innerHTML = gameBoard.board[middle][right];
-        document.getElementById('lower-left').innerHTML = gameBoard.board[lower][left];
-        document.getElementById('lower-middle').innerHTML = gameBoard.board[lower][middle];
-        document.getElementById('lower-right').innerHTML = gameBoard.board[lower][right];
+        document.getElementById('upper-left').innerHTML = gameBoard.board[boardIndexDict['upper']][boardIndexDict['left']];
+        document.getElementById('upper-middle').innerHTML = gameBoard.board[boardIndexDict['upper']][boardIndexDict['middle']];
+        document.getElementById('upper-right').innerHTML = gameBoard.board[boardIndexDict['upper']][boardIndexDict['right']];
+        document.getElementById('middle-left').innerHTML = gameBoard.board[boardIndexDict['middle']][boardIndexDict['left']];
+        document.getElementById('middle-middle').innerHTML = gameBoard.board[boardIndexDict['middle']][boardIndexDict['middle']];
+        document.getElementById('middle-right').innerHTML = gameBoard.board[boardIndexDict['middle']][boardIndexDict['right']];
+        document.getElementById('lower-left').innerHTML = gameBoard.board[boardIndexDict['lower']][boardIndexDict['left']];
+        document.getElementById('lower-middle').innerHTML = gameBoard.board[boardIndexDict['lower']][boardIndexDict['middle']];
+        document.getElementById('lower-right').innerHTML = gameBoard.board[boardIndexDict['lower']][boardIndexDict['right']];
 
     }
     return {
