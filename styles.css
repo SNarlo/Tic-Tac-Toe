@@ -1,3 +1,7 @@
+* {
+    font-family: sans-serif
+}
+
 
 body {
     width: 100%;
@@ -27,16 +31,36 @@ body {
     flex:30%;                       /* don't grow, don't shrink, width */
     height: 33%;
     background-color: rgb(241, 207, 156);
-    border: 1px solid rgb(238, 150, 35)
+    border: 1px solid rgb(238, 150, 35);
+    color: rgb(238, 150, 35);
+    text-align: center;
+    font-size: 180px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.occupied {
+    flex:30%;                       /* don't grow, don't shrink, width */
+    height: 33%;
+    background-color: rgb(241, 207, 156);
+    border: 1px solid rgb(238, 150, 35);
+    color: rgb(238, 150, 35);
+    text-align: center;
+    font-size: 180px;
+    cursor: not-allowed;
+    user-select: none;
 }
 
 .tile:hover {
     background-color: rgb(238, 150, 35);
+    color: rgb(241, 207, 156);
+    cursor: pointer;
+    user-select: 'none';
 }
 
 .buttons {
     position: absolute;
-    top: 5%;
+    top: 8%;
     left: 50%;
     -webkit-transform: translate(-50%, -50%);
 }

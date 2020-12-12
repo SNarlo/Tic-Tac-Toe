@@ -10,6 +10,7 @@ let boardIndexDict = {
     'right': 2,
 }
 
+var playerOrderCounter = 0;
 
 /**
  * A module which is repsonsible for the game-board.
@@ -20,9 +21,20 @@ const gameBoard = (() => {
     const logBoardToConsole = () => console.log(board);
     
     const addMarkerToBoard = (tileId) => { 
-        let idConstituents = tileId.split('-'); // splits the id to get the index
-        board[boardIndexDict[idConstituents[0]]][boardIndexDict[idConstituents[1]]] = 'X'; // NEED to ADD player Symbol
-        displayController.render();
+        
+        if (gameLogic.checkTileIfOccupied(tileId)) {
+            let idConstituents = tileId.split('-'); // splits the id to get the index
+            if (playerOrderCounter % 2 == 0) {
+                board[boardIndexDict[idConstituents[0]]][boardIndexDict[idConstituents[1]]] = players.playerOneSymbol; 
+            } 
+            else if (playerOrderCounter % 2 == 1) {
+                board[boardIndexDict[idConstituents[0]]][boardIndexDict[idConstituents[1]]] = players.playerTwoSymbol; 
+            }
+        
+            gameLogic.changeTileToOccupiedStatus(tileId);
+            displayController.render();
+            gameLogic.changePlayer();
+        } 
     }
 
     const resetGameBoard = () => {
@@ -40,6 +52,8 @@ const gameBoard = (() => {
         resetGameBoard,
     };
 })();
+
+
 
 /**
  * A module respoinsible for rendering the board data to the 
@@ -64,36 +78,66 @@ const displayController = (() => {
 
 })();
 
-
 /**
- * A factory function representing a player of the game. 
+ * A module representing the players in the game
  */
-const player = (playerName, playerSymbol) => {
-    
-    const getPlayerName = () => playerName;
-    const getPlayerSymbol = () => playerSymbol;
+const players = (() => {
+    const playerOneSymbol = 'X';
+    const playerTwoSymbol = 'O';
 
     return {
-        getPlayerName,
-        getPlayerSymbol,
+        playerOneSymbol,
+        playerTwoSymbol,
     }
-}
+})();
 
 /**
  * A module which controlls the game logic
  */
 const gameLogic = (() => {
+    
+    const play = () => {
+        boardChildren = document.getElementById('game-board').children;
+        for (let i = 0; i < boardChildren.length; i++) {
+            boardChildren[i].addEventListener('click', (event) => {
+            gameBoard.addMarkerToBoard(event.target.id);
+            });
+        }
 
+        restartButton = document.getElementById('restart');
+        restartButton.addEventListener('click', gameBoard.resetGameBoard);
+    }
+
+    const changePlayer = () => {
+        playerOrderCounter += 1
+    }
+
+    const checkWin = () => {
+        
+    }
+
+    const changeTileToOccupiedStatus = (tileId) => {
+        tileToOccupy = document.getElementById(tileId);
+        tileToOccupy.className = 'occupied';
+    }
+ 
+    const checkTileIfOccupied = (tileId) => {
+        tileToCheck = document.getElementById(tileId);
+        if(tileToCheck.className != 'occupied') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    return {
+        changePlayer,
+        play,
+        checkWin,
+        changeTileToOccupiedStatus,
+        checkTileIfOccupied,
+    }
 })();
 
+gameLogic.play(); // Activate the game 
 
-
-boardChildren = document.getElementById('game-board').children;
-for (let i = 0; i < boardChildren.length; i++) {
-    boardChildren[i].addEventListener('click', (event) => {
-        gameBoard.addMarkerToBoard(event.target.id);
-    });
-}
-
-restartButton = document.getElementById('restart');
-restartButton.addEventListener('click', gameBoard.resetGameBoard);
