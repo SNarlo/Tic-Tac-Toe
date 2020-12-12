@@ -12,6 +12,8 @@ let boardIndexDict = {
 
 var playerOrderCounter = 0;
 
+var gameOver = false;
+
 /**
  * A module which is repsonsible for the game-board.
  */
@@ -33,6 +35,7 @@ const gameBoard = (() => {
         
             gameLogic.changeTileToOccupiedStatus(tileId);
             displayController.render();
+            gameLogic.checkWin();
             gameLogic.changePlayer();
         } 
     }
@@ -44,6 +47,11 @@ const gameBoard = (() => {
             }
         }
         displayController.render();
+
+        occupiedTiles = document.querySelectorAll('.occupied');
+        for (let i = 0; i < occupiedTiles.length; i++) {
+            occupiedTiles[i].className = 'tile';
+        }
     }
     return {
         board, 
@@ -70,7 +78,6 @@ const displayController = (() => {
         document.getElementById('lower-left').innerHTML = gameBoard.board[boardIndexDict['lower']][boardIndexDict['left']];
         document.getElementById('lower-middle').innerHTML = gameBoard.board[boardIndexDict['lower']][boardIndexDict['middle']];
         document.getElementById('lower-right').innerHTML = gameBoard.board[boardIndexDict['lower']][boardIndexDict['right']];
-
     }
     return {
         render,
@@ -82,12 +89,26 @@ const displayController = (() => {
  * A module representing the players in the game
  */
 const players = (() => {
+
     const playerOneSymbol = 'X';
     const playerTwoSymbol = 'O';
+    const playerOneName = 'Player One';
+    const playerTwoName = 'Player Two';
+
+    const getPlayerName = (playerSymbol) => {
+        if (playerSymbol == playerOneSymbol) {
+            return playerOneName;
+        } else if (playerSymbol == playerTwoSymbol) {
+            return playerTwoName;
+        }
+    }
 
     return {
         playerOneSymbol,
         playerTwoSymbol,
+        playerOneName,
+        playerTwoName,
+        getPlayerName,
     }
 })();
 
@@ -113,7 +134,38 @@ const gameLogic = (() => {
     }
 
     const checkWin = () => {
-        
+        if ((gameBoard.board[0][0] && gameBoard.board[0][1] && gameBoard.board[0][2]) == players.playerOneSymbol) {
+            console.log(`${players.playerOneSymbol} Wins!`)
+            return (`${playerSymbol} + Wins!`);
+        }
+        if ((gameBoard.board[1][0] && gameBoard.board[1][1] && gameBoard.board[1][2]) == players.playerOneSymbol) {
+            console.log(`${players.playerOneSymbol} Wins!`)
+            return (`${playerSymbol} + Wins!`);
+        }
+        if ((gameBoard.board[2][0] && gameBoard.board[2][1] && gameBoard.board[2][2]) == players.playerOneSymbol) {
+            console.log(`${players.playerOneSymbol} Wins!`)
+            return (`${playerSymbol} + Wins!`);
+        }
+        if ((gameBoard.board[0][0] && gameBoard.board[1][0] && gameBoard.board[2][0]) == players.playerOneSymbol) {
+            console.log(`${players.playerOneSymbol} Wins!`)
+            return (`${playerSymbol} + Wins!`);
+        }
+        if ((gameBoard.board[0][1] && gameBoard.board[1][1] && gameBoard.board[2][1]) == players.playerOneSymbol) {
+            console.log(`${players.playerOneSymbol} Wins!`)
+            return (`${playerSymbol} + Wins!`);
+        }
+        if ((gameBoard.board[0][2] && gameBoard.board[1][2] && gameBoard.board[2][2]) == players.playerOneSymbol) {
+            console.log(`${players.playerOneSymbol} Wins!`)
+            return (`${playerSymbol} + Wins!`);
+        }
+        if ((gameBoard.board[0][0] && gameBoard.board[1][1] && gameBoard.board[2][2]) == players.playerOneSymbol) {
+            console.log(`${players.playerOneSymbol} Wins!`)
+            return (`${playerSymbol} + Wins!`);
+        }
+        if ((gameBoard.board[2][0] && gameBoard.board[1][1] && gameBoard.board[0][2]) == players.playerOneSymbol) {
+            console.log(`${players.playerOneSymbol} Wins!`)
+            return (`${playerSymbol} + Wins!`);
+        }
     }
 
     const changeTileToOccupiedStatus = (tileId) => {
