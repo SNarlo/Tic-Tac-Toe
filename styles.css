@@ -1,7 +1,6 @@
 * {
-    font-family: sans-serif
+    font-family: 'Architects Daughter', cursive;
 }
-
 
 body {
     width: 100%;
@@ -19,12 +18,32 @@ body {
     border: 1px solid lightgrey;
 }
 
+.result-window {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    height: 600px;
+    width: 600px;
+    display: none;
+    z-index: 0;
+    background-color: lightgray;
+    justify-content: center;
+    align-items: center;
+}
+
+.result {
+    font-size: 150px;
+    text-align: center;
+}
+
 .game-board {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
     height: 100%;
     width: 100%;
+    z-index: 1;
 }
 
 .tile {
@@ -46,7 +65,7 @@ body {
     border: 1px solid rgb(238, 150, 35);
     color: rgb(238, 150, 35);
     text-align: center;
-    font-size: 180px;
+    font-size: 150px;
     cursor: not-allowed;
     user-select: none;
 }
@@ -66,19 +85,20 @@ body {
 }
 
 .restart-button {
-    background-color: darkorange;
+    background-color: rgb(241, 207, 156);
     text-emphasis: emphasis;
     outline: none;
     height: 3em;
     width: 8em;
-    border: 0.1em solid darkgrey;
-    font-size: 16px;
+    border: 2px solid rgb(238, 150, 35);
+    font-size: 26px;
     border-radius: 5px;
     color: black;
 }
 
 .restart-button:hover {
     cursor: pointer;
+    background-color: rgb(238, 150, 35);
 }
 
 .restart-button:active {

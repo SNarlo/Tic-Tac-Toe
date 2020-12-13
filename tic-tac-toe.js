@@ -33,9 +33,12 @@ const gameBoard = (() => {
                 board[boardIndexDict[idConstituents[0]]][boardIndexDict[idConstituents[1]]] = players.playerTwoSymbol; 
             }
         
+            // Actions to complete once marker is added to the board
             gameLogic.changeTileToOccupiedStatus(tileId);
             displayController.render();
-            gameLogic.checkWin();
+            gameLogic.checkWin(players.playerOneSymbol); 
+            gameLogic.checkWin(players.playerTwoSymbol);
+            gameLogic.checkDraw();
             gameLogic.changePlayer();
         } 
     }
@@ -62,7 +65,6 @@ const gameBoard = (() => {
 })();
 
 
-
 /**
  * A module respoinsible for rendering the board data to the 
  * grid display. 
@@ -79,6 +81,11 @@ const displayController = (() => {
         document.getElementById('lower-middle').innerHTML = gameBoard.board[boardIndexDict['lower']][boardIndexDict['middle']];
         document.getElementById('lower-right').innerHTML = gameBoard.board[boardIndexDict['lower']][boardIndexDict['right']];
     }
+
+    const showGameOverScreen = () => {
+
+    }
+
     return {
         render,
     }
@@ -118,7 +125,7 @@ const players = (() => {
 const gameLogic = (() => {
     
     const play = () => {
-        boardChildren = document.getElementById('game-board').children;
+        boardChildren = document.getElementById('game-board').children; // All the tiles in the game board
         for (let i = 0; i < boardChildren.length; i++) {
             boardChildren[i].addEventListener('click', (event) => {
             gameBoard.addMarkerToBoard(event.target.id);
@@ -133,38 +140,60 @@ const gameLogic = (() => {
         playerOrderCounter += 1
     }
 
-    const checkWin = () => {
-        if ((gameBoard.board[0][0] && gameBoard.board[0][1] && gameBoard.board[0][2]) == players.playerOneSymbol) {
-            console.log(`${players.playerOneSymbol} Wins!`)
+    const checkWin = (playerSymbol) => {
+        if (gameBoard.board[0][0] == playerSymbol && gameBoard.board[0][1] == playerSymbol && gameBoard.board[0][2] == playerSymbol) {
+            console.log(`${players.getPlayerName(playerSymbol)} Wins!`);
             return (`${playerSymbol} + Wins!`);
         }
-        if ((gameBoard.board[1][0] && gameBoard.board[1][1] && gameBoard.board[1][2]) == players.playerOneSymbol) {
-            console.log(`${players.playerOneSymbol} Wins!`)
+        if (gameBoard.board[1][0] == playerSymbol && gameBoard.board[1][1] == playerSymbol && gameBoard.board[1][2] == playerSymbol) {
+            console.log(`${players.getPlayerName(playerSymbol)} Wins!`);
             return (`${playerSymbol} + Wins!`);
         }
-        if ((gameBoard.board[2][0] && gameBoard.board[2][1] && gameBoard.board[2][2]) == players.playerOneSymbol) {
-            console.log(`${players.playerOneSymbol} Wins!`)
+        if (gameBoard.board[2][0] == playerSymbol && gameBoard.board[2][1] == playerSymbol && gameBoard.board[2][2] == playerSymbol) {
+            console.log(`${players.getPlayerName(playerSymbol)} Wins!`);
             return (`${playerSymbol} + Wins!`);
         }
-        if ((gameBoard.board[0][0] && gameBoard.board[1][0] && gameBoard.board[2][0]) == players.playerOneSymbol) {
-            console.log(`${players.playerOneSymbol} Wins!`)
+        if (gameBoard.board[0][0] == playerSymbol && gameBoard.board[1][0] == playerSymbol && gameBoard.board[2][0] == playerSymbol) {
+            console.log(`${players.getPlayerName(playerSymbol)} Wins!`);
             return (`${playerSymbol} + Wins!`);
         }
-        if ((gameBoard.board[0][1] && gameBoard.board[1][1] && gameBoard.board[2][1]) == players.playerOneSymbol) {
-            console.log(`${players.playerOneSymbol} Wins!`)
+        if (gameBoard.board[0][1] == playerSymbol && gameBoard.board[1][1] == playerSymbol && gameBoard.board[2][1] == playerSymbol) {
+            console.log(`${players.getPlayerName(playerSymbol)} Wins!`);
             return (`${playerSymbol} + Wins!`);
         }
-        if ((gameBoard.board[0][2] && gameBoard.board[1][2] && gameBoard.board[2][2]) == players.playerOneSymbol) {
-            console.log(`${players.playerOneSymbol} Wins!`)
+        if (gameBoard.board[0][2] == playerSymbol && gameBoard.board[1][2] == playerSymbol && gameBoard.board[2][2] == playerSymbol) {
+            console.log(`${players.getPlayerName(playerSymbol)} Wins!`);
             return (`${playerSymbol} + Wins!`);
         }
-        if ((gameBoard.board[0][0] && gameBoard.board[1][1] && gameBoard.board[2][2]) == players.playerOneSymbol) {
-            console.log(`${players.playerOneSymbol} Wins!`)
+        if (gameBoard.board[0][0] == playerSymbol && gameBoard.board[1][1] == playerSymbol && gameBoard.board[2][2] == playerSymbol) {
+            console.log(`${players.getPlayerName(playerSymbol)} Wins!`);
             return (`${playerSymbol} + Wins!`);
         }
-        if ((gameBoard.board[2][0] && gameBoard.board[1][1] && gameBoard.board[0][2]) == players.playerOneSymbol) {
-            console.log(`${players.playerOneSymbol} Wins!`)
+        if (gameBoard.board[2][0] == playerSymbol && gameBoard.board[1][1] == playerSymbol && gameBoard.board[0][2] == playerSymbol) {
+            console.log(`${players.getPlayerName(playerSymbol)} Wins!`);
             return (`${playerSymbol} + Wins!`);
+        }
+    }
+
+    const checkDraw = () => {
+
+        let occupiedTiles = 0;
+
+        for (let i = 0; i < gameBoard.board.length; i++) {
+            for (let j = 0; j < gameBoard.board[0].length; j++) {
+                if (gameBoard.board[i][j] != "") {
+                    occupiedTiles += 1;
+                }
+            }
+        }
+        if (occupiedTiles == 9) {
+            resultWindow = document.querySelector('.result-window');
+            resultWindow.style.display = 'flex';
+            resultWindow.style.zIndex = 100;
+            resultWindow.style.opacity = 0.3;
+
+            resultText = document.querySelector('.result');
+            resultText.innerHTML = "It's a Draw!";
         }
     }
 
@@ -186,6 +215,7 @@ const gameLogic = (() => {
         changePlayer,
         play,
         checkWin,
+        checkDraw,
         changeTileToOccupiedStatus,
         checkTileIfOccupied,
     }
