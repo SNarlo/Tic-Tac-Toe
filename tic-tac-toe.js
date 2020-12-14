@@ -36,8 +36,8 @@ const gameBoard = (() => {
             // Actions to complete once marker is added to the board
             gameLogic.changeTileToOccupiedStatus(tileId);
             displayController.render();
-            gameLogic.checkWin(players.playerOneSymbol); 
-            gameLogic.checkWin(players.playerTwoSymbol);
+            gameLogic.checkWinAndAlterDisplay(players.playerOneSymbol); 
+            gameLogic.checkWinAndAlterDisplay(players.playerTwoSymbol);
             gameLogic.checkDraw();
             gameLogic.changePlayer();
         } 
@@ -70,6 +70,12 @@ const gameBoard = (() => {
  * grid display. 
  */
 const displayController = (() => {
+
+    const resultWindow = document.querySelector('.result-window');
+    const resultText = document.querySelector('.result');
+    const lineContainer = document.querySelector('.line-container');
+    const line = document.querySelectorAll('.line');
+    
     const render = () => {
         document.getElementById('upper-left').innerHTML = gameBoard.board[boardIndexDict['upper']][boardIndexDict['left']];
         document.getElementById('upper-middle').innerHTML = gameBoard.board[boardIndexDict['upper']][boardIndexDict['middle']];
@@ -82,12 +88,41 @@ const displayController = (() => {
         document.getElementById('lower-right').innerHTML = gameBoard.board[boardIndexDict['lower']][boardIndexDict['right']];
     }
 
-    const showGameOverScreen = () => {
+    const showGameOverScreen = (playerSymbol) => {
+        resultWindow.style.display = 'flex';
+        resultWindow.style.zIndex = 100;
+        resultWindow.style.opacity = 0.65;
+
+        resultText.innerHTML = `${playerSymbol}'s Win!`
+    }
+
+    const showDrawScreen = () => {
+        resultWindow.style.display = 'flex';
+        resultWindow.style.zIndex = 100;
+        resultWindow.style.opacity = 0.65;
+
+        resultText.innerHTML = "It's a Draw!";
+    }
+
+    const resetGameResultScreen = () => {
+        resultWindow.style.display = 'none';
+        resultText.innerHTML = "It's a Draw!";
+        lineContainer.style.display = 'none';
+        line.style.display = 'none';
 
     }
 
+    const displayWinLine = () => {
+        lineContainer.style.display = 'block';
+    }
+
     return {
+        lineContainer,
         render,
+        showGameOverScreen,
+        showDrawScreen,
+        resetGameResultScreen,
+        displayWinLine,
     }
 
 })();
@@ -133,50 +168,66 @@ const gameLogic = (() => {
         }
 
         restartButton = document.getElementById('restart');
-        restartButton.addEventListener('click', gameBoard.resetGameBoard);
+        restartButton.addEventListener('click', () => {
+            gameBoard.resetGameBoard();
+            displayController.resetGameResultScreen();
+            resetTurnCounter();
+        });
     }
 
     const changePlayer = () => {
         playerOrderCounter += 1
     }
 
-    const checkWin = (playerSymbol) => {
+    const resetTurnCounter = () => {
+        playerOrderCounter = 0;
+    }
+
+    const checkWinAndAlterDisplay = (playerSymbol) => {
         if (gameBoard.board[0][0] == playerSymbol && gameBoard.board[0][1] == playerSymbol && gameBoard.board[0][2] == playerSymbol) {
-            console.log(`${players.getPlayerName(playerSymbol)} Wins!`);
-            return (`${playerSymbol} + Wins!`);
+            displayController.displayWinLine();
+            document.getElementById('line-upper-horizontal').style.display = 'block';
+            displayController.showGameOverScreen(playerSymbol);
         }
         if (gameBoard.board[1][0] == playerSymbol && gameBoard.board[1][1] == playerSymbol && gameBoard.board[1][2] == playerSymbol) {
-            console.log(`${players.getPlayerName(playerSymbol)} Wins!`);
-            return (`${playerSymbol} + Wins!`);
+            displayController.displayWinLine();
+            document.getElementById('line-middle-horizontal').style.display = 'block';
+            displayController.showGameOverScreen(playerSymbol);
         }
         if (gameBoard.board[2][0] == playerSymbol && gameBoard.board[2][1] == playerSymbol && gameBoard.board[2][2] == playerSymbol) {
-            console.log(`${players.getPlayerName(playerSymbol)} Wins!`);
-            return (`${playerSymbol} + Wins!`);
+            displayController.displayWinLine();
+            document.getElementById('line-lower-horizontal').style.display = 'block';
+            displayController.showGameOverScreen(playerSymbol);
         }
         if (gameBoard.board[0][0] == playerSymbol && gameBoard.board[1][0] == playerSymbol && gameBoard.board[2][0] == playerSymbol) {
-            console.log(`${players.getPlayerName(playerSymbol)} Wins!`);
-            return (`${playerSymbol} + Wins!`);
+            displayController.displayWinLine();
+            document.getElementById('line-left-vertical').style.display = 'block';
+            displayController.showGameOverScreen(playerSymbol);
         }
         if (gameBoard.board[0][1] == playerSymbol && gameBoard.board[1][1] == playerSymbol && gameBoard.board[2][1] == playerSymbol) {
-            console.log(`${players.getPlayerName(playerSymbol)} Wins!`);
-            return (`${playerSymbol} + Wins!`);
+            displayController.displayWinLine();
+            document.getElementById('line-middle-vertical').style.display = 'block';
+            displayController.showGameOverScreen(playerSymbol);
         }
         if (gameBoard.board[0][2] == playerSymbol && gameBoard.board[1][2] == playerSymbol && gameBoard.board[2][2] == playerSymbol) {
-            console.log(`${players.getPlayerName(playerSymbol)} Wins!`);
-            return (`${playerSymbol} + Wins!`);
+            displayController.displayWinLine();
+            document.getElementById('line-right-vertical').style.display = 'block';
+            displayController.showGameOverScreen(playerSymbol);
         }
         if (gameBoard.board[0][0] == playerSymbol && gameBoard.board[1][1] == playerSymbol && gameBoard.board[2][2] == playerSymbol) {
-            console.log(`${players.getPlayerName(playerSymbol)} Wins!`);
-            return (`${playerSymbol} + Wins!`);
+            displayController.displayWinLine();
+            document.getElementById('line-diagonal-left-right').style.display = 'block';
+            displayController.showGameOverScreen(playerSymbol);
         }
         if (gameBoard.board[2][0] == playerSymbol && gameBoard.board[1][1] == playerSymbol && gameBoard.board[0][2] == playerSymbol) {
-            console.log(`${players.getPlayerName(playerSymbol)} Wins!`);
-            return (`${playerSymbol} + Wins!`);
+            displayController.displayWinLine();
+            document.getElementById('line-diagonal-right-left').style.display = 'block';
+            displayController.showGameOverScreen(playerSymbol);
         }
+
     }
 
     const checkDraw = () => {
-
         let occupiedTiles = 0;
 
         for (let i = 0; i < gameBoard.board.length; i++) {
@@ -187,13 +238,7 @@ const gameLogic = (() => {
             }
         }
         if (occupiedTiles == 9) {
-            resultWindow = document.querySelector('.result-window');
-            resultWindow.style.display = 'flex';
-            resultWindow.style.zIndex = 100;
-            resultWindow.style.opacity = 0.3;
-
-            resultText = document.querySelector('.result');
-            resultText.innerHTML = "It's a Draw!";
+            displayController.showDrawScreen();
         }
     }
 
@@ -214,8 +259,9 @@ const gameLogic = (() => {
     return {
         changePlayer,
         play,
-        checkWin,
+        checkWinAndAlterDisplay,
         checkDraw,
+        resetTurnCounter,
         changeTileToOccupiedStatus,
         checkTileIfOccupied,
     }
