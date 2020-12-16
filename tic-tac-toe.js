@@ -1,6 +1,6 @@
 
 /*
-Constants
+Global Constants
 */
 let boardIndexDict = {
     'upper': 0,
@@ -11,8 +11,8 @@ let boardIndexDict = {
 }
 
 var playerOrderCounter = 0;
-
 var gameOver = false;
+
 
 /**
  * A module which is repsonsible for the game-board.
@@ -74,7 +74,7 @@ const displayController = (() => {
     const resultWindow = document.querySelector('.result-window');
     const resultText = document.querySelector('.result');
     const lineContainer = document.querySelector('.line-container');
-    const line = document.querySelectorAll('.line');
+    const line = document.getElementsByClassName('line');
     
     const render = () => {
         document.getElementById('upper-left').innerHTML = gameBoard.board[boardIndexDict['upper']][boardIndexDict['left']];
@@ -108,8 +108,12 @@ const displayController = (() => {
         resultWindow.style.display = 'none';
         resultText.innerHTML = "It's a Draw!";
         lineContainer.style.display = 'none';
-        line.style.display = 'none';
-
+        
+        for (let i = 0; i < line.length; i++) {
+            if (line[i].style.display != 'none') {
+                line[i].style.display = 'none';
+            }
+        }
     }
 
     const displayWinLine = () => {
@@ -187,41 +191,49 @@ const gameLogic = (() => {
         if (gameBoard.board[0][0] == playerSymbol && gameBoard.board[0][1] == playerSymbol && gameBoard.board[0][2] == playerSymbol) {
             displayController.displayWinLine();
             document.getElementById('line-upper-horizontal').style.display = 'block';
+            activeLine = 'line-upper-horizontal';
             displayController.showGameOverScreen(playerSymbol);
         }
         if (gameBoard.board[1][0] == playerSymbol && gameBoard.board[1][1] == playerSymbol && gameBoard.board[1][2] == playerSymbol) {
             displayController.displayWinLine();
             document.getElementById('line-middle-horizontal').style.display = 'block';
+            activeLine = 'line-middle-horizontal';
             displayController.showGameOverScreen(playerSymbol);
         }
         if (gameBoard.board[2][0] == playerSymbol && gameBoard.board[2][1] == playerSymbol && gameBoard.board[2][2] == playerSymbol) {
             displayController.displayWinLine();
             document.getElementById('line-lower-horizontal').style.display = 'block';
+            activeLine = 'line-lower-horizontal';
             displayController.showGameOverScreen(playerSymbol);
         }
         if (gameBoard.board[0][0] == playerSymbol && gameBoard.board[1][0] == playerSymbol && gameBoard.board[2][0] == playerSymbol) {
             displayController.displayWinLine();
             document.getElementById('line-left-vertical').style.display = 'block';
+            activeLine = 'line-left-vertical';
             displayController.showGameOverScreen(playerSymbol);
         }
         if (gameBoard.board[0][1] == playerSymbol && gameBoard.board[1][1] == playerSymbol && gameBoard.board[2][1] == playerSymbol) {
             displayController.displayWinLine();
             document.getElementById('line-middle-vertical').style.display = 'block';
+            displayController.activeLine = 'line-middle-vertical';
             displayController.showGameOverScreen(playerSymbol);
         }
         if (gameBoard.board[0][2] == playerSymbol && gameBoard.board[1][2] == playerSymbol && gameBoard.board[2][2] == playerSymbol) {
             displayController.displayWinLine();
             document.getElementById('line-right-vertical').style.display = 'block';
+            activeLine = 'line-right-vertical';
             displayController.showGameOverScreen(playerSymbol);
         }
         if (gameBoard.board[0][0] == playerSymbol && gameBoard.board[1][1] == playerSymbol && gameBoard.board[2][2] == playerSymbol) {
             displayController.displayWinLine();
             document.getElementById('line-diagonal-left-right').style.display = 'block';
+            activeLine = 'line-diagonal-left-right';
             displayController.showGameOverScreen(playerSymbol);
         }
         if (gameBoard.board[2][0] == playerSymbol && gameBoard.board[1][1] == playerSymbol && gameBoard.board[0][2] == playerSymbol) {
             displayController.displayWinLine();
             document.getElementById('line-diagonal-right-left').style.display = 'block';
+            activeLine = 'line-diagonal-right-left';
             displayController.showGameOverScreen(playerSymbol);
         }
 
