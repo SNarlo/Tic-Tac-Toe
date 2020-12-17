@@ -149,3 +149,35 @@ body {
     box-shadow: 0px 1px 0px 0px darkgrey;
 }
 
+#player-ones-turn {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 30%;
+    left: 5%;
+    font-size: 25px;
+}
+
+#player-twos-turn {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 30%;
+    right: 5%;
+    font-size: 25px;
+}
+
+.arrows {
+    height: 60px;
+    width: 60px;
+}
+
+#player-one-arrow {
+    display: none;
+}
+
+#player-two-arrow {
+    display: none;
+}
+
+

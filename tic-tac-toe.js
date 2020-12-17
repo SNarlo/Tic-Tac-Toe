@@ -75,6 +75,8 @@ const displayController = (() => {
     const resultText = document.querySelector('.result');
     const lineContainer = document.querySelector('.line-container');
     const line = document.getElementsByClassName('line');
+    const playerOneTurnArrow = document.getElementById("player-one-arrow");
+    const playerTwoTurnArrow = document.getElementById("player-two-arrow");
     
     const render = () => {
         document.getElementById('upper-left').innerHTML = gameBoard.board[boardIndexDict['upper']][boardIndexDict['left']];
@@ -120,6 +122,22 @@ const displayController = (() => {
         lineContainer.style.display = 'block';
     }
 
+    const showPlayerOneTurnArrow = () => {
+        playerOneTurnArrow.style.display = 'block';
+    }
+
+    const showPlayerTwoTurnArrow = () => { 
+        playerTwoTurnArrow.style.display = 'block';
+    }
+
+    const turnOffPlayerOneTurnArrow = () => {
+        playerOneTurnArrow.style.display = 'block';
+    }
+
+    const turnOffPlayerTwoTurnArrow = () => { 
+        playerTwoTurnArrow.style.display = 'block';
+    }
+
     return {
         lineContainer,
         render,
@@ -127,7 +145,11 @@ const displayController = (() => {
         showDrawScreen,
         resetGameResultScreen,
         displayWinLine,
-    }
+        showPlayerOneTurnArrow,
+        showPlayerTwoTurnArrow,
+        turnOffPlayerOneTurnArrow,
+        turnOffPlayerTwoTurnArrow,
+    }  
 
 })();
 
