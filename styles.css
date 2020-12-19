@@ -152,6 +152,8 @@ body {
 #player-ones-turn {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     position: absolute;
     top: 30%;
     left: 5%;
@@ -161,6 +163,8 @@ body {
 #player-twos-turn {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     position: absolute;
     top: 30%;
     right: 5%;
@@ -174,6 +178,7 @@ body {
 
 #player-one-arrow {
     display: none;
+
 }
 
 #player-two-arrow {

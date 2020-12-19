@@ -122,20 +122,14 @@ const displayController = (() => {
         lineContainer.style.display = 'block';
     }
 
-    const showPlayerOneTurnArrow = () => {
-        playerOneTurnArrow.style.display = 'block';
-    }
-
-    const showPlayerTwoTurnArrow = () => { 
-        playerTwoTurnArrow.style.display = 'block';
-    }
-
-    const turnOffPlayerOneTurnArrow = () => {
-        playerOneTurnArrow.style.display = 'block';
-    }
-
-    const turnOffPlayerTwoTurnArrow = () => { 
-        playerTwoTurnArrow.style.display = 'block';
+    const showTurnArrow = () => {
+        if (playerOrderCounter % 2 == 0) {
+            playerOneTurnArrow.style.display = 'block';
+            playerTwoTurnArrow.style.display = 'none';
+        } else {
+            playerOneTurnArrow.style.display = 'none';
+            playerTwoTurnArrow.style.display = 'block';
+        }
     }
 
     return {
@@ -145,10 +139,7 @@ const displayController = (() => {
         showDrawScreen,
         resetGameResultScreen,
         displayWinLine,
-        showPlayerOneTurnArrow,
-        showPlayerTwoTurnArrow,
-        turnOffPlayerOneTurnArrow,
-        turnOffPlayerTwoTurnArrow,
+        showTurnArrow,
     }  
 
 })();
@@ -198,11 +189,15 @@ const gameLogic = (() => {
             gameBoard.resetGameBoard();
             displayController.resetGameResultScreen();
             resetTurnCounter();
+            displayController.showTurnArrow(); // sets the arrow to X first
         });
+
+        displayController.showTurnArrow(); // shows the rrow on startup 
     }
 
     const changePlayer = () => {
         playerOrderCounter += 1
+        displayController.showTurnArrow(); // changes arrow with each turn 
     }
 
     const resetTurnCounter = () => {
