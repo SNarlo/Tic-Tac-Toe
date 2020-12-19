@@ -77,6 +77,8 @@ const displayController = (() => {
     const line = document.getElementsByClassName('line');
     const playerOneTurnArrow = document.getElementById("player-one-arrow");
     const playerTwoTurnArrow = document.getElementById("player-two-arrow");
+    const playerOneCrown = document.getElementById("player-one-crown");
+    const playerTwoCrown = document.getElementById("player-two-crown");
     
     const render = () => {
         document.getElementById('upper-left').innerHTML = gameBoard.board[boardIndexDict['upper']][boardIndexDict['left']];
@@ -132,6 +134,19 @@ const displayController = (() => {
         }
     }
 
+    const displayWinnerCrownTurnOffArrows = (playerSymbol) => {
+        if (playerSymbol == players.playerOneSymbol) {
+            playerOneCrown.style.display = 'block';
+        } else {
+            playerTwoCrown.style.display = 'block';
+        }
+    }
+
+    const turnOffCrowns = () => {
+        playerOneCrown.style.display = 'none';
+        playerTwoCrown.style.display = 'none';
+    }
+
     return {
         lineContainer,
         render,
@@ -140,6 +155,8 @@ const displayController = (() => {
         resetGameResultScreen,
         displayWinLine,
         showTurnArrow,
+        displayWinnerCrownTurnOffArrows,
+        turnOffCrowns,
     }  
 
 })();
@@ -190,6 +207,7 @@ const gameLogic = (() => {
             displayController.resetGameResultScreen();
             resetTurnCounter();
             displayController.showTurnArrow(); // sets the arrow to X first
+            displayController.turnOffCrowns();
         });
 
         displayController.showTurnArrow(); // shows the rrow on startup 
@@ -210,48 +228,56 @@ const gameLogic = (() => {
             document.getElementById('line-upper-horizontal').style.display = 'block';
             activeLine = 'line-upper-horizontal';
             displayController.showGameOverScreen(playerSymbol);
+            displayController.displayWinnerCrownTurnOffArrows(playerSymbol);
         }
         if (gameBoard.board[1][0] == playerSymbol && gameBoard.board[1][1] == playerSymbol && gameBoard.board[1][2] == playerSymbol) {
             displayController.displayWinLine();
             document.getElementById('line-middle-horizontal').style.display = 'block';
             activeLine = 'line-middle-horizontal';
             displayController.showGameOverScreen(playerSymbol);
+            displayController.displayWinnerCrownTurnOffArrows(playerSymbol);
         }
         if (gameBoard.board[2][0] == playerSymbol && gameBoard.board[2][1] == playerSymbol && gameBoard.board[2][2] == playerSymbol) {
             displayController.displayWinLine();
             document.getElementById('line-lower-horizontal').style.display = 'block';
             activeLine = 'line-lower-horizontal';
             displayController.showGameOverScreen(playerSymbol);
+            displayController.displayWinnerCrownTurnOffArrows(playerSymbol);
         }
         if (gameBoard.board[0][0] == playerSymbol && gameBoard.board[1][0] == playerSymbol && gameBoard.board[2][0] == playerSymbol) {
             displayController.displayWinLine();
             document.getElementById('line-left-vertical').style.display = 'block';
             activeLine = 'line-left-vertical';
             displayController.showGameOverScreen(playerSymbol);
+            displayController.displayWinnerCrownTurnOffArrows(playerSymbol);
         }
         if (gameBoard.board[0][1] == playerSymbol && gameBoard.board[1][1] == playerSymbol && gameBoard.board[2][1] == playerSymbol) {
             displayController.displayWinLine();
             document.getElementById('line-middle-vertical').style.display = 'block';
             displayController.activeLine = 'line-middle-vertical';
             displayController.showGameOverScreen(playerSymbol);
+            displayController.displayWinnerCrownTurnOffArrows(playerSymbol);
         }
         if (gameBoard.board[0][2] == playerSymbol && gameBoard.board[1][2] == playerSymbol && gameBoard.board[2][2] == playerSymbol) {
             displayController.displayWinLine();
             document.getElementById('line-right-vertical').style.display = 'block';
             activeLine = 'line-right-vertical';
             displayController.showGameOverScreen(playerSymbol);
+            displayController.displayWinnerCrownTurnOffArrows(playerSymbol);
         }
         if (gameBoard.board[0][0] == playerSymbol && gameBoard.board[1][1] == playerSymbol && gameBoard.board[2][2] == playerSymbol) {
             displayController.displayWinLine();
             document.getElementById('line-diagonal-left-right').style.display = 'block';
             activeLine = 'line-diagonal-left-right';
             displayController.showGameOverScreen(playerSymbol);
+            displayController.displayWinnerCrownTurnOffArrows(playerSymbol);
         }
         if (gameBoard.board[2][0] == playerSymbol && gameBoard.board[1][1] == playerSymbol && gameBoard.board[0][2] == playerSymbol) {
             displayController.displayWinLine();
             document.getElementById('line-diagonal-right-left').style.display = 'block';
             activeLine = 'line-diagonal-right-left';
             displayController.showGameOverScreen(playerSymbol);
+            displayController.displayWinnerCrownTurnOffArrows(playerSymbol);
         }
 
     }
